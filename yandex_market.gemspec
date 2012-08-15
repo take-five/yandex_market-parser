@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = %w(amikhailov83@gmail.com)
   gem.description   = %q{Simple DSL for configuring parser for Yandex.Market files}
   gem.summary       = %q{Simple DSL for configuring parser for Yandex.Market files}
-  gem.homepage      = "git@git.dev.apress.ru:"
+  gem.homepage      = "git://git.dev.apress.ru/yandex_market.git"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
