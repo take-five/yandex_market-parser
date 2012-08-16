@@ -1,0 +1,1 @@
+require "yandex_market"
