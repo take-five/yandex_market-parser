@@ -1,5 +1,5 @@
 module YandexMarket
-  module Handler
+  module Controller
     # Almost like ActiveSupport::Callbacks but 76,6% less complex.
     #
     # Example:
@@ -16,6 +16,8 @@ module YandexMarket
     # Running the callbacks happens on instances. It will run the block and #have_a_desert from above.
     #
     #   cat.run_hook :after_dinner
+    #
+    # Respectively borrowed from https://github.com/apotonick/hooks
     module Hooks
       def self.included(base)
         base.extend ClassMethods
@@ -64,14 +66,6 @@ module YandexMarket
             _hooks[name.to_s] ||= []
             _hooks[name.to_s] << (block || method)
           end
-
-          #instance_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
-          #  def #{name}(method=nil, &block)
-          #    self._hooks ||= {}
-          #    _hooks[#{name.to_s.inspect}] ||= []
-          #    _hooks[#{name.to_s.inspect}] << (block || method)
-          #  end
-          #RUBY_EVAL
         end
       end
 

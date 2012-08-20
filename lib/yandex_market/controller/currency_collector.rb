@@ -1,15 +1,13 @@
-require "active_support/concern"
-
 module YandexMarket
-  module Handler
-    # Mixin for handlers, stores currencies in inner hash, and maps a currency for each offer
+  module Controller
+    # Mixin for controllers, stores currencies in inner hash, and maps a currency for each offer
     module CurrencyCollector
-      extend ActiveSupport::Concern
-
-      included do
-        attr_reader :currencies
-        after_currency :collect_currency
-        before_offer   :assign_currency
+      def self.included(base)
+        base.class_eval do
+          attr_reader :currencies
+          after_currency :collect_currency
+          before_offer   :assign_currency
+        end
       end
 
       def collect_currency currency
@@ -23,5 +21,5 @@ module YandexMarket
         end
       end
     end # moduel CurrencyCollector
-  end # module Handler
+  end # module Controller
 end # module YandexMarket

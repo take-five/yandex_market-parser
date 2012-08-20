@@ -1,8 +1,8 @@
-module YandexMarket::Parser
-  extend ActiveSupport::Autoload
+require "yandex_market"
 
-  autoload :Base
-  autoload :Configurable
-  autoload :Configuration
-  autoload :Minimal
+module YandexMarket::Parser
+  autoload :Base,          "yandex_market/parser/base"
+  autoload :Configurable,  "yandex_market/parser/configurable"
+  autoload :Configuration, "yandex_market/parser/configuration"
+  autoload :Minimal,       "yandex_market/parser/minimal"
 end

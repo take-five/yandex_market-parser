@@ -1,6 +1,6 @@
 module YandexMarket
-  module Handler
-    # Stats handler groups incoming objects by their XML-node and counts entries for each group
+  module Controller
+    # Stats controller groups incoming objects by their XML-node and counts entries for each group
     #
     # == Example
     #   h = Stats.new

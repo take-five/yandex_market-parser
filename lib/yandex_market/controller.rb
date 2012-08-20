@@ -1,15 +1,13 @@
 module YandexMarket
-  module Handler
-    extend ActiveSupport::Autoload
+  module Controller
+    autoload :CurrencyCollector, "yandex_market/controller/currency_collector"
+    autoload :Hooks,             "yandex_market/controller/hooks"
+    autoload :Naive,             "yandex_market/controller/naive"
+    autoload :Stats,             "yandex_market/controller/stats"
 
-    autoload :CurrencyCollector
-    autoload :Hooks
-    autoload :Naive
-    autoload :Stats
-
-    # Abstract handler, dispatches objects to proper methods, defines callback-methods
+    # Abstract controller, dispatches objects to proper methods, defines callback-methods
     class Base
-      include YandexMarket::Handler::Hooks
+      include YandexMarket::Controller::Hooks
 
       NODE_TYPES = :catalog, :shop, :currency, :category, :offer
 
@@ -66,5 +64,5 @@ module YandexMarket
         end
       end # def dispatcher
     end # class Base
-  end # module Handler
+  end # module Controller
 end # module YandexMarket

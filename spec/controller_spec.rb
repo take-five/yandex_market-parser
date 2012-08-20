@@ -1,7 +1,7 @@
 require "spec_helper"
 
-describe YandexMarket::Handler do
-  class TestHandler < YandexMarket::Handler::Base
+describe YandexMarket::Controller do
+  class TestController < YandexMarket::Controller::Base
     attr_reader :stats
 
     def initialize
@@ -19,7 +19,7 @@ describe YandexMarket::Handler do
     end
   end
 
-  subject { TestHandler.new }
+  subject { TestController.new }
   let(:catalog) { YandexMarket::Parser::Base.configuration.catalog.klass.new }
   let(:shop) { YandexMarket::Parser::Base.configuration.shop.klass.new }
   let(:currency) { YandexMarket::Parser::Base.configuration.currencies.klass.new }

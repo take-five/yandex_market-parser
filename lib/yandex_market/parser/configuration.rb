@@ -1,8 +1,4 @@
 require "set"
-require "active_support/core_ext/array/wrap"
-require "active_support/core_ext/hash/keys"
-require "active_support/core_ext/hash/deep_merge"
-require "active_support/core_ext/object/duplicable"
 
 module YandexMarket
   # Parser configuration
@@ -34,7 +30,7 @@ module YandexMarket
 
         instance_variables.each do |ivar|
           was = other.instance_variable_get(ivar)
-          was = was.duplicable? && !was.is_a?(Class) ? was.clone : was
+          was = was.is_a?(Class) ? was : (was.clone rescue was)
 
           instance_variable_set ivar, was
         end
@@ -73,12 +69,12 @@ module YandexMarket
         # stringify keys and values
         map = Hash[map.collect { |k, v| [k.to_s, v.to_s] }]
 
-        @map.deep_merge!(map)
+        @map.merge! map
       end
 
       # Define an +attributes+ that should be collected within section
       def collect(*attributes)
-        Array.wrap(attributes).flatten.each do |attr|
+        attributes.flatten.each do |attr|
           assert_valid_attribute! attr
 
           @attributes << attr.to_s
@@ -87,14 +83,14 @@ module YandexMarket
 
       # Returns true when all of +attributes+ are collected within section
       def collect?(*attributes)
-        Array.wrap(attributes).flatten.all? do |attr|
+        attributes.flatten.all? do |attr|
           @attributes.include?(attr.to_s)
         end
       end
 
       # Define list of +attributes+ that should not be collected within section
       def skip(*attributes)
-        attributes = Array.wrap(attributes).flatten.map(&:to_s)
+        attributes = attributes.flatten.map(&:to_s)
         @attributes.subtract(attributes)
       end
 
@@ -106,7 +102,7 @@ module YandexMarket
       def convert(*attributes, converter)
         converter = converter.values_at(:with, :as, :to).compact.first if converter.is_a?(Hash)
 
-        Array.wrap(attributes).flatten.each do |attr|
+        attributes.flatten.each do |attr|
           assert_valid_attribute! attr
 
           @converters[attr.to_s] = converter
@@ -200,7 +196,8 @@ module YandexMarket
       other.sections.each_pair do |key, value|
         @sections[key] = value.clone
       end
-      @handler = other.handler.clone if other.handler.duplicable?
+
+      @controller = other.controller.clone if other.controller
     end
 
     # generate accessor methods for common sections
@@ -214,17 +211,17 @@ module YandexMarket
       CODE
     end
 
-    # Get or set object handler (must be successor of YandexMarket::Handler::Base)
+    # Get or set object controller (must be successor of YandexMarket::Controller::Base)
     # == Example
-    #   configuration.handler YandexMarket::Handler::Base
-    def handler(handler = nil)
-      if handler
-        raise TypeError, "YandexMarket::Handler::Base expected, #{handler.class} given instead" unless
-            handler.is_a?(Class) && handler <= YandexMarket::Handler::Base
+    #   configuration.controller YandexMarket::Controller::Base
+    def controller(controller = nil)
+      if controller
+        raise TypeError, "YandexMarket::Controller::Base expected, #{controller.class} given instead" unless
+            controller.is_a?(Class) && controller <= YandexMarket::Controller::Base
 
-        @handler = handler
+        @controller = controller
       else
-        @handler
+        @controller
       end
     end
 

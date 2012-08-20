@@ -1,11 +1,10 @@
 require "yandex_market/version"
-require "active_support/dependencies/autoload"
 
 # The way to customize processing of Yandex.Market XML files
-# is to define Parser and Handler.
+# is to define Parser and Controller.
 #
 # Parser is responsible for reading file, recognizing its structure and map XML-nodes to Ruby objects.
-# Handler is responsible for the rest part of work - it processes objects, received from Parser.
+# Controller is responsible for the rest part of work - it processes objects received from Parser.
 #
 # To create a parser you should create a new class - successor of YandexMarket::Parser::Base, and
 # configure YML-specific sections. In each section you should define of which attributes you are interested.
@@ -24,9 +23,9 @@ require "active_support/dependencies/autoload"
 #     end
 #   end
 #
-# To create a handler you should create a new class - successor of YandexMarket::Handler::Base. You should implement
+# To create a controller you should create a new class - successor of YandexMarket::Controller::Base. You should implement
 # main methods: catalog, shop, currency, category, offer
-#   class MyCoolHandler < YandexMarket::Handler::Base
+#   class MyCoolController < YandexMarket::Controller::Base
 #     def catalog(o)
 #     end
 #
@@ -43,18 +42,16 @@ require "active_support/dependencies/autoload"
 #     end
 #   end
 #
-# There is already few predefined handlers, they are mainly for testing purposes:
-# 1. YandexMarket::Handlers::Naive - it just stores all objects to array, and it is accessible by method +objects+
-# 2. YandexMarket::Handlers::Stats - counts nodes by node type, statistics is accessible by method +stats+
+# There is already few predefined controllers, they are designed mainly for testing purposes:
+# 1. YandexMarket::Controller::Naive - it just stores all objects to array, and it is accessible by method +objects+
+# 2. YandexMarket::Controller::Stats - counts nodes by node type, statistics is accessible by method +stats+
 #
 # And now you can parse YML-files:
-#   handler = MyCoolHandler.new
-#   parser  = MyCoolParser.new(handler)
+#   controller = MyCoolController.new
+#   parser  = MyCoolParser.new(controller)
 #   parser.parse_stream(File.open('/tmp/yandex.xml'))
 module YandexMarket
-  extend ActiveSupport::Autoload
-
-  autoload :Handler
-  autoload :Model
-  autoload :Parser
+  autoload :Controller, "yandex_market/controller"
+  autoload :Model,      "yandex_market/model"
+  autoload :Parser,     "yandex_market/parser"
 end

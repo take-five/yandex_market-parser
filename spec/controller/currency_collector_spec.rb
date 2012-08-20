@@ -1,8 +1,8 @@
 require "spec_helper"
 
-describe YandexMarket::Handler::CurrencyCollector do
-  class CurrencyCollectorTestHandler < YandexMarket::Handler::Naive
-    include YandexMarket::Handler::CurrencyCollector
+describe YandexMarket::Controller::CurrencyCollector do
+  class CurrencyCollectorTestController < YandexMarket::Controller::Naive
+    include YandexMarket::Controller::CurrencyCollector
   end
 
   class CurrencyCollectorTestParser < YandexMarket::Parser::Base
@@ -14,12 +14,12 @@ describe YandexMarket::Handler::CurrencyCollector do
       c.collect :currency_id
     end
 
-    configure.handler CurrencyCollectorTestHandler
+    configure.controller CurrencyCollectorTestController
   end
 
   let(:parser) { CurrencyCollectorTestParser.new }
-  let(:currencies) { parser.handler.currencies }
-  let(:offers) { parser.handler.objects.select { |o| o.node_name == 'offer' } }
+  let(:currencies) { parser.controller.currencies }
+  let(:offers) { parser.controller.objects.select { |o| o.node_name == 'offer' } }
   let(:rouble) { currencies["RUR"] }
   before { fixture("1.xml") { |f| parser.parse_stream(f) } }
 

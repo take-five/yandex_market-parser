@@ -1,6 +1,6 @@
 module YandexMarket
-  module Handler
-    # Simple handler. Just holds objects in memory.
+  module Controller
+    # Simple controller. Just holds objects in memory.
     class Naive < Base
       attr_reader :objects
 

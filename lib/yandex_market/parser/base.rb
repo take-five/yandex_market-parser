@@ -1,7 +1,6 @@
 require "sax_stream/parser"
 require "sax_stream/types/boolean"
 require "sax_stream/types/decimal"
-require "active_support/core_ext/object/with_options"
 
 module YandexMarket
   # Base parser class
@@ -25,8 +24,8 @@ module YandexMarket
   #       #
   #     end
   #
-  #     # set handler
-  #     configure.handler MyHandler
+  #     # set controller
+  #     configure.controller MyController
   #   end
   module Parser
     class Base
@@ -107,31 +106,26 @@ module YandexMarket
                 :adult => :adult,
                 :barcode => :barcode
 
-        c.with_options :as => SaxStream::Types::Boolean do |bool|
-          bool.transform :available
-          bool.transform :store
-          bool.transform :pickup
-          bool.transform :delivery
-          bool.transform :manufacturer_warranty
-          bool.transform :downloadable
-          bool.transform :adult
+        [:available, :store, :pickup, :delivery,
+         :manufacturer_warranty, :downloadable, :adult].each do |attr|
+          c.transform attr, :to => SaxStream::Types::Boolean
         end
 
         c.transform :price, :to => SaxStream::Types::Decimal
       end
 
-      # set default (abstract handler)
-      configure.handler YandexMarket::Handler::Base
+      # set default (abstract controller)
+      configure.controller YandexMarket::Controller::Base
       configure_relations
 
-      attr_reader :handler
-      def initialize(handler = nil)
-        @handler = handler || configuration.handler.new
-        @parser = SaxStream::Parser.new(@handler, [configuration.catalog.klass, configuration.shop.klass])
+      attr_reader :controller
+      def initialize(controller = nil)
+        @controller = controller || configuration.controller.new
+        @parser = SaxStream::Parser.new(@controller, [configuration.catalog.klass, configuration.shop.klass])
       end
 
       def parse_stream(io_stream, encoding = 'UTF-8')
-        handler.run_hooks :parse do
+        controller.run_hooks :parse do
           @parser.parse_stream(io_stream, encoding)
         end
       end

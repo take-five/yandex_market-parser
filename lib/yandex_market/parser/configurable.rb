@@ -1,5 +1,3 @@
-require "active_support/core_ext/object/duplicable"
-
 module YandexMarket
   module Parser
     module Configurable
@@ -9,7 +7,9 @@ module YandexMarket
       alias_method :configure, :configuration
 
       def inherited(subclass)
-        subclass.instance_variable_set :@configuration, @configuration.clone if @configuration.duplicable?
+        subclass.instance_variable_set :@configuration, @configuration.clone
+      rescue TypeError
+        # ignore error "can't clone NilClass"
       end
 
       module InstanceMethods

@@ -10,14 +10,14 @@ describe YandexMarket::Parser do
       c.collect :id, :available
     end
 
-    configure.handler YandexMarket::Handler::Stats
+    configure.controller YandexMarket::Controller::Stats
   end
 
   subject(:parser) { TestParser.new }
 
   it "should parse" do
     fixture("1.xml") { |f| parser.parse_stream(f) }
-    stats = parser.handler.stats
+    stats = parser.controller.stats
 
     stats['yml_catalog'].should == 1
     stats['shop'].should == 1
@@ -25,13 +25,17 @@ describe YandexMarket::Parser do
   end
 
   it "should map xml nodes to attributes" do
-    parser = TestParser.new(YandexMarket::Handler::Naive.new)
+    parser = TestParser.new(YandexMarket::Controller::Naive.new)
 
     fixture("1.xml") { |f| parser.parse_stream(f) }
-    offers = parser.handler.objects.select { |o| o.node_name == 'offer' }
+    offers = parser.controller.objects.select { |o| o.node_name == 'offer' }
 
     offer = offers.first
     offer.id.should == "1"
     offer.available.should == true
+  end
+
+  it "should throw error when malformed XML is parsed" do
+    expect { fixture("malformed.xml") { |f| parser.parse_stream(f) } }.to raise_error(SaxStream::ParsingError)
   end
 end
