@@ -23,9 +23,21 @@ require "yandex_market/version"
 #     end
 #   end
 #
-# To create a controller you should create a new class - successor of YandexMarket::Controller::Base. You should implement
-# main methods: catalog, shop, currency, category, offer
+# To create a controller you should create a new class - successor of YandexMarket::Controller::Base. You should define
+# dispatch rules for main YML-objects: catalog, shop, currency, category, offer. Optionally you can add hooks for every
+# handler. E.g. if you set up your dispatch rules to route <tt>offer</tt> nodes to <tt>handle_offer</tt>, you can declare
+# <tt>before_handle_offer</tt> and <tt>after_handle_offer</tt> hooks.
 #   class MyCoolController < YandexMarket::Controller::Base
+#     dispatch do |d|
+#       d.route 'yml_catalog' => :catalog,
+#               'shop' => :shop,
+#               'currency' => :currency,
+#               'category' => :category,
+#               'offer' => :offer
+#     end
+#
+#     before_offer :before_offer_hook
+#
 #     def catalog(o)
 #     end
 #
@@ -39,6 +51,10 @@ require "yandex_market/version"
 #     end
 #
 #     def offer(o)
+#     end
+#
+#     private
+#     def before_offer_hook(offer)
 #     end
 #   end
 #

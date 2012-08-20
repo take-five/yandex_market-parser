@@ -5,6 +5,7 @@ module YandexMarket
       def self.included(base)
         base.class_eval do
           attr_reader :currencies
+
           after_currency :collect_currency
           before_offer   :assign_currency
         end

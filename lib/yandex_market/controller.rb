@@ -1,68 +1,23 @@
 module YandexMarket
   module Controller
     autoload :CurrencyCollector, "yandex_market/controller/currency_collector"
-    autoload :Hooks,             "yandex_market/controller/hooks"
+    autoload :Dispatchable,      "yandex_market/controller/dispatchable"
     autoload :Naive,             "yandex_market/controller/naive"
     autoload :Stats,             "yandex_market/controller/stats"
 
     # Abstract controller, dispatches objects to proper methods, defines callback-methods
     class Base
-      include YandexMarket::Controller::Hooks
-
-      NODE_TYPES = :catalog, :shop, :currency, :category, :offer
+      extend YandexMarket::Controller::Dispatchable
 
       define_hooks :before_parse, :after_parse
-      # create hooks like before_shop, after_shop, before_offer, after_offer
-      define_hooks *%w(before after).product(NODE_TYPES).map { |*a| a.join('_').to_sym }
+
+      # Declare default dispatch property
+      dispatcher.property :node_name
 
       # Dispatches +object+ to proper method
       def <<(object)
-        dispatcher[object.class].call(object)
+        dispatch(object)
       end
-
-      protected
-      def catalog o
-        raise NotImplementedError
-      end
-
-      def shop o
-        raise NotImplementedError
-      end
-
-      def currency o
-        raise NotImplementedError
-      end
-
-      def category o
-        raise NotImplementedError
-      end
-
-      def offer o
-        raise NotImplementedError
-      end
-
-      private
-      # syntax sugar :)
-      def process_yml_catalog(o) #:nodoc:
-        process_catalog(o)
-      end
-
-      # generate process methods
-      NODE_TYPES.each do |type|
-        class_eval <<-CODE, __FILE__, __LINE__ + 1
-          def process_#{type}(o)        # def process_shop(o)
-            run_hooks :#{type}, o do    #   run_hooks :shop, o do
-              #{type}(o)                #     shop(o)
-            end                         #   end
-          end                           # end
-        CODE
-      end
-
-      def dispatcher #:nodoc:
-        @dispatcher ||= Hash.new do |hash, klass|
-          hash[klass] = method("process_#{klass.node_name}".intern)
-        end
-      end # def dispatcher
     end # class Base
   end # module Controller
 end # module YandexMarket

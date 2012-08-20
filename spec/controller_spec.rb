@@ -4,6 +4,11 @@ describe YandexMarket::Controller do
   class TestController < YandexMarket::Controller::Base
     attr_reader :stats
 
+    dispatch do |d|
+      d.route 'yml_catalog' => :catalog,
+              'shop'        => :shop
+    end
+
     def initialize
       @stats = Hash.new do |h, k|
         h[k] = 0
@@ -28,5 +33,5 @@ describe YandexMarket::Controller do
   before { subject << shop }
 
   its(:stats) { should == {:catalog => 1, :shop => 1} }
-  it { expect{ subject << currency }.to raise_error(NotImplementedError) }
+  it { expect{ subject << currency }.to raise_error(YandexMarket::Controller::DispatchError) }
 end

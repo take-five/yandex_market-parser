@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = YandexMarket::VERSION
 
   gem.add_dependency "sax_stream", "~> 1.0.3"
+  gem.add_dependency "hooks", "~> 0.2.1"
 
   gem.add_development_dependency "bundler", ">= 1.0.0"
   gem.add_development_dependency "rspec", ">= 2.11.0"
