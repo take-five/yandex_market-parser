@@ -65,7 +65,7 @@ describe YandexMarket::Controller::Dispatchable do
       subject.dispatch("bar")
     end
 
-    it "should raise error when unkonwn is received" do
+    it "should raise error when unknown is received" do
       expect{ subject.dispatch("unknown") }.to raise_error(YandexMarket::Controller::DispatchError)
     end
   end

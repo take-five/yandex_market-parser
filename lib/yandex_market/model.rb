@@ -1,3 +1,4 @@
+require "weakref"
 require "sax_stream/mapper"
 
 module YandexMarket
@@ -31,7 +32,22 @@ module YandexMarket
 
     # Base class for offers
     class Offer < Model
-      attr_accessor :currency
+      attr_accessor :currency, :category
+    end
+
+    # Base class for categories
+    class Category < Model
+      attr_reader :parent
+
+      def children
+        @children ||= []
+      end
+
+      def parent=(category)
+        category.children << self
+
+        @parent = category
+      end
     end
   end
 end

@@ -1,6 +1,7 @@
 require "sax_stream/parser"
 require "sax_stream/types/boolean"
 require "sax_stream/types/decimal"
+require "sax_stream/types/integer"
 
 module YandexMarket
   # Base parser class
@@ -72,9 +73,11 @@ module YandexMarket
       end
 
       configure.categories do |c|
+        c.base_class YandexMarket::Model::Category
         c.node_name 'category'
 
-        c.xpath '@id' => :id, '@parentId' => :parent_id
+        c.xpath '@id' => :id, '@parentId' => :parent_id, '' => :title
+        c.convert :id, :parent_id, :to => SaxStream::Types::Integer
       end
 
       configure.offers do |c|
@@ -106,10 +109,16 @@ module YandexMarket
                 :adult => :adult,
                 :barcode => :barcode
 
-        [:available, :store, :pickup, :delivery,
-         :manufacturer_warranty, :downloadable, :adult].each do |attr|
-          c.transform attr, :to => SaxStream::Types::Boolean
-        end
+        c.convert :category_id, :to => SaxStream::Types::Integer
+
+        c.convert :available,
+                  :store,
+                  :pickup,
+                  :delivery,
+                  :manufacturer_warranty,
+                  :downloadable,
+                  :adult,
+                  :to => SaxStream::Types::Boolean
 
         c.transform :price, :to => SaxStream::Types::Decimal
       end

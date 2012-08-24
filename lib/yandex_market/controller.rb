@@ -1,5 +1,6 @@
 module YandexMarket
   module Controller
+    autoload :CategoryCollector, "yandex_market/controller/category_collector"
     autoload :CurrencyCollector, "yandex_market/controller/currency_collector"
     autoload :Dispatchable,      "yandex_market/controller/dispatchable"
     autoload :Naive,             "yandex_market/controller/naive"

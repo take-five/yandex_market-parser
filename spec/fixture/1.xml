@@ -3,12 +3,24 @@
     <currencies>
       <currency id="RUR" />
     </currencies>
+    <categories>
+      <category id="1">Books</category>
+
+      <category id="2">Video</category>
+      <category id="3" parentId="1">Detectives</category>
+      <category id="4" parentId="1">Action</category>
+      <category id="5" parentId="2">Comedy</category>
+
+      <category id="6">Printers</category>
+    </categories>
     <offers>
       <offer id="1" available="true">
         <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
       </offer>
       <offer id="2" available="false">
         <currencyId>RUR</currencyId>
+        <someCustomElement>Value</someCustomElement>
       </offer>
     </offers>
   </shop>
