@@ -72,8 +72,8 @@ end
 ```
 
 There is already few predefined controllers, they are designed mainly for testing purposes:
-1. YandexMarket::Controller::Naive - it just stores all objects to array, and it is accessible by method +objects+
-2. YandexMarket::Controller::Stats - counts nodes by node type, statistics is accessible by method +stats+
+1. `YandexMarket::Controller::Naive` - it just stores all objects to array, and it is accessible by method `objects`
+2. `YandexMarket::Controller::Stats` - counts nodes by node type, statistics is accessible by method `stats`
 
 And now you can parse YML-files:
 ```ruby

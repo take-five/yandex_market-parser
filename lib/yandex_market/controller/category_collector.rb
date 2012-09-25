@@ -32,6 +32,6 @@ module YandexMarket
         end
         @categories_finalized = true
       end
-    end # moduel CurrencyCollector
+    end # module CurrencyCollector
   end # module Controller
 end # module YandexMarket
