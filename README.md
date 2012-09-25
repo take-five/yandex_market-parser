@@ -19,7 +19,7 @@ The way to customize processing of Yandex.Market XML files is to define Parser a
 Parser is responsible for reading file, recognizing its structure and map XML-nodes to Ruby objects.
 Controller is responsible for the rest part of work - it processes objects received from Parser.
 
-To create a parser you should create a new class - successor of YandexMarket::Parser::Base, and configure YML-specific sections. In each section you should define of which attributes you are interested. Some attributes are already mapped to standard XML-nodes. Anyway, you can map some specific attributes by yourself.
+To create a parser you should create a new class - successor of `YandexMarket::Parser::Base`, and configure YML-specific sections. In each section you should define of which attributes you are interested. Some attributes are already mapped to standard XML-nodes. Anyway, you can map some specific attributes by yourself.
 ```ruby
 class MyCoolParser < YandexMarket::Parser::Base
   configure.catalog do |c|
@@ -37,7 +37,7 @@ class MyCoolParser < YandexMarket::Parser::Base
 end
 ```
 
-To create a controller you should create a new class - successor of YandexMarket::Controller::Base. You should define dispatch rules for main YML-objects: catalog, shop, currency, category, offer. Optionally you can add hooks for every handler. E.g. if you set up your dispatch rules to route <tt>offer</tt> nodes to <tt>handle_offer</tt>, you can declare <tt>before_handle_offer</tt> and <tt>after_handle_offer</tt> hooks.
+To create a controller you should create a new class - successor of `YandexMarket::Controller::Base`. You should define dispatch rules for main YML-objects: catalog, shop, currency, category, offer. Optionally you can add hooks for every handler. E.g. if you set up your dispatch rules to route <tt>offer</tt> nodes to <tt>handle_offer</tt>, you can declare <tt>before_handle_offer</tt> and <tt>after_handle_offer</tt> hooks.
 ```ruby
 class MyCoolController < YandexMarket::Controller::Base
   dispatch do |d|
@@ -72,6 +72,7 @@ end
 ```
 
 There is already few predefined controllers, they are designed mainly for testing purposes:
+
 1. `YandexMarket::Controller::Naive` - it just stores all objects to array, and it is accessible by method `objects`
 2. `YandexMarket::Controller::Stats` - counts nodes by node type, statistics is accessible by method `stats`
 
