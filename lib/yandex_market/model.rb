@@ -32,7 +32,7 @@ module YandexMarket
 
     # Base class for offers
     class Offer < Model
-      attr_accessor :currency, :category
+      attr_accessor :currency, :category, :params
     end
 
     # Base class for categories
