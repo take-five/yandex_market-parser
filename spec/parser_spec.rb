@@ -35,10 +35,10 @@ describe YandexMarket::Parser do
     offer.available.should == true
   end
 
-  it "should map xml nodes to attributes" do
+  it "should parse xml without categories-tree and map xml nodes to attributes" do
     parser = TestParser.new(YandexMarket::Controller::Naive.new)
 
-    fixture("1.xml") { |f| parser.parse_stream(f) }
+    fixture("2.xml") { |f| parser.parse_stream(f) }
     offers = parser.controller.objects.select { |o| o.node_name == 'offer' }
 
     offer = offers.first

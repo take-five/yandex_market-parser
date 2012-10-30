@@ -1,0 +1,22 @@
+<yml_catalog date="2012-05-12 08:23">
+  <shop>
+    <currencies>
+      <currency id="RUR" />
+    </currencies>
+    <offers>
+      <offer id="1" available="true">
+        <currencyId>RUR</currencyId>
+        <categoryId>4</categoryId>
+      </offer>
+      <offer id="2" available="false">
+        <currencyId>RUR</currencyId>
+        <someCustomElement>Value</someCustomElement>
+      </offer>
+      <offer id="3" available="true">
+        <currencyId>RUR</currencyId>
+        <categoryId>144</categoryId>
+        <someCustomElement>Value</someCustomElement>
+      </offer>
+    </offers>
+  </shop>
+</yml_catalog>
