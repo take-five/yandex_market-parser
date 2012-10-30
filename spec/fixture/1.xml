@@ -22,6 +22,11 @@
         <currencyId>RUR</currencyId>
         <someCustomElement>Value</someCustomElement>
       </offer>
+      <offer id="3" available="true">
+        <currencyId>RUR</currencyId>
+        <categoryId>144</categoryId>
+        <someCustomElement>Value</someCustomElement>
+      </offer>
     </offers>
   </shop>
 </yml_catalog>

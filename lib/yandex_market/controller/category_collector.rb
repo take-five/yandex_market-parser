@@ -28,7 +28,7 @@ module YandexMarket
       def finalize_categories
         @categories.each do |id, category|
           category.parent = @categories[category.parent_id] if
-              category.parent_id && category.parent_id > 0 && @categories[category.parent_id].present?
+              category.parent_id && category.parent_id > 0 && @categories.has_key?(category.parent_id)
         end
         @categories_finalized = true
       end
