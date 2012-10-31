@@ -21,13 +21,24 @@ describe YandexMarket::Parser do
 
     stats['yml_catalog'].should == 1
     stats['shop'].should == 1
-    stats['offer'].should == 2
+    stats['offer'].should == 3
   end
 
   it "should map xml nodes to attributes" do
     parser = TestParser.new(YandexMarket::Controller::Naive.new)
 
     fixture("1.xml") { |f| parser.parse_stream(f) }
+    offers = parser.controller.objects.select { |o| o.node_name == 'offer' }
+
+    offer = offers.first
+    offer.id.should == "1"
+    offer.available.should == true
+  end
+
+  it "should parse xml without categories-tree and map xml nodes to attributes" do
+    parser = TestParser.new(YandexMarket::Controller::Naive.new)
+
+    fixture("2.xml") { |f| parser.parse_stream(f) }
     offers = parser.controller.objects.select { |o| o.node_name == 'offer' }
 
     offer = offers.first
